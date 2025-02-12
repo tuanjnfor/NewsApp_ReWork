@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import com.loc.newsapp.domain.usercase.AppEntryUseCases
 import com.loc.newsapp.presentation.onboarding.OnboardingScreen
 import com.loc.newsapp.presentation.onboarding.components.OnboardingPage
+import com.loc.newsapp.presentation.onboarding.onBoardingViewModel
 import com.loc.newsapp.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,21 +29,25 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+//    @Inject
+//    lateinit var appEntryUseCases: AppEntryUseCases
+
     @Inject
-    lateinit var appEntryUseCases: AppEntryUseCases
+    lateinit var useCases: AppEntryUseCases
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen()
         lifecycleScope.launch {
-            appEntryUseCases.readAppEntry().collect{
+            useCases.readAppEntry().collect{
                 Log.d("Minhtuan AppEntry", it.toString())
             }
         }
         setContent {
             NewsAppTheme {
                 Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background), contentAlignment = Alignment.TopStart) {
-                    OnboardingScreen()
+                    val viewModel : onBoardingViewModel = hiltViewModel()
+                    OnboardingScreen(event = viewModel::onEvent)
                 }
             }
         }
