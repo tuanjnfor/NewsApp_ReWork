@@ -2,6 +2,7 @@ package com.loc.newsapp.presentation.onboarding
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.icu.text.UnicodeSet.SpanCondition
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -86,6 +87,7 @@ fun OnboardingScreen(event: (OnBoardingEvent)-> Unit) {
                 NewsButton(text = buttonState.value[1], onClick = {
                     scope.launch {
                         if (pagerState.currentPage == 2) {
+                            Log.d("Minhtuan", "OnboardingScreen: SendingEvent ")
                             event(OnBoardingEvent.SaveAppEntry)
                         } else {
                             pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
