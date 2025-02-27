@@ -1,4 +1,4 @@
-package com.loc.newsapp.domain.usercase
+package com.loc.newsapp.domain.usercase.app_entry
 
 import android.util.Log
 import com.loc.newsapp.domain.manager.LocalUserManager
